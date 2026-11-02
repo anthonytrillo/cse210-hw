@@ -1,0 +1,6 @@
+{
+  "dotnet.dotnetPath": "/usr/local/share/dotnet/dotnet",
+  "terminal.integrated.env.osx": {
+    "PATH": "/usr/local/share/dotnet:${env:PATH}"
+  }
+}
