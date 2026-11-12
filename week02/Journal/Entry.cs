@@ -1,6 +1,7 @@
 using System;
 
-public class Entry {
+public class Entry
+{
     public string _date { get; set; }
     public string _prompt { get; set; }
     public string _entry { get; set; }
@@ -8,7 +9,7 @@ public class Entry {
 
     public void Display()
     {
-        Console.WriteLine($"{_date} - {_prompt} - {_entry}");
+        Console.WriteLine($"Date: {_date} | Prompt: {_prompt} | Entry: {_entry}");
     }
 
     public override string ToString()

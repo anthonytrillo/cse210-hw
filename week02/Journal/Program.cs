@@ -1,21 +1,5 @@
 using System;
 
-/*
-Exceeding Requirements:
-- Entries are saved as a CSV file (Date, Prompt, Entry, Mood). Commas and
-  quotation marks in the text are escaped so the file opens correctly in Excel.
-- Each entry also stores a mood rating from 1 to 5. Mood is shown with the
-  entry and summarized as an average in Stats.
-- Search finds past entries by a word in the date, prompt, or response, which
-  helps when the journal gets long and an entry is hard to find again.
-- Stats reports how many entries are stored, the average mood, and a writing
-  streak of consecutive days. The streak is there to make a daily habit easier
-  to keep.
-- The program warns before Quit or Load when there are unsaved changes, so a
-  journal is not thrown away by accident.
-- The prompt list has ten questions, and the same prompt is not shown two
-  times in a row.
-*/
 class Program
 {
     static void Main(string[] args)
@@ -70,7 +54,7 @@ class Program
         Console.WriteLine(entry._prompt);
 
         entry._entry = Console.ReadLine();
-        journal._entries.Add(entry);
+        journal.AddEntry(entry);
 
         Console.WriteLine("Entry added successfully.");
         DisplayMenu(journal);
@@ -78,48 +62,25 @@ class Program
 
     static void Display(Journal journal)
     {
-        foreach (Entry entry in journal._entries)
-        {
-            entry.Display();
-        }
+        Console.WriteLine("Displaying journal entries...");
+        journal.DisplayAll();
         DisplayMenu(journal);
     }
 
     static void Load(Journal journal)
     {
-        List<Entry> loadedEntries = new List<Entry>();
-        string[] lines = File.ReadAllLines("journal.txt");
-
-        foreach (string line in lines)
-        {
-            string[] parts = line.Split('|');
-            if (parts.Length < 4)
-            {
-                continue;
-            }
-
-            Entry entry = new Entry();
-            entry._date = parts[0];
-            entry._prompt = parts[1];
-            entry._entry = parts[2];
-
-            int mood;
-            if (!int.TryParse(parts[3], out mood))
-            {
-                mood = 0;
-            }
-            entry._mood = mood;
-            loadedEntries.Add(entry);
-        }
-
-        journal._entries = loadedEntries;
+        Console.WriteLine("What is the file name?");
+        string fileName = Console.ReadLine();
+        journal.LoadFromFile(fileName);
         DisplayMenu(journal);
     }
 
     static void Save(Journal journal)
     {
-        Console.WriteLine("What...");
-        File.WriteAllLines("journal.txt", journal._entries.Select(e => e.ToString()).ToArray());
+        Console.WriteLine("What is the file name?");
+        string fileName = Console.ReadLine();
+        journal.SaveToFile(fileName);
+        Console.WriteLine("Journal saved successfully.");
         DisplayMenu(journal);
     }
 
